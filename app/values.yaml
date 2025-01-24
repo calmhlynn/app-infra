@@ -1,21 +1,17 @@
 replicaCount: 1
-
 image:
   repository: barca105/gateway-rs
   pullPolicy: IfNotPresent
-  tag: latest
-
+  tag: no-tag-main-bb0951dc01ddcb00c2c419f17487c2082895f819
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
-
 serviceAccount:
   create: true
   automount: true
   annotations: {}
   name: "gateway"
-
-podAnnotations: 
+podAnnotations:
   vault.hashicorp.com/agent-inject: 'true'
   vault.hashicorp.com/agent-inject-secret-gateway: 'secret/data/gateway-config'
   vault.hashicorp.com/role: 'gateway'
@@ -29,24 +25,19 @@ podAnnotations:
     export CALLBACK_URL={{ .Data.data.CALLBACK_URL }}
     export REDIS_URL={{ .Data.data.REDIS_URL }}
     {{- end }}
-
 podLabels: {}
-
 podSecurityContext: {}
-
 securityContext: {}
-
 service:
   type: LoadBalancer
-  ports: 
+  ports:
     - name: http
       port: 80
       targetPort: 8080
-
 ingress:
   enabled: true
   className: "nginx"
-  annotations: 
+  annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
@@ -59,13 +50,11 @@ ingress:
             service:
               - name: gateway-rs
                 port: 80
-  tls: 
-   - secretName: gateway-tls
-     hosts:
-       - calmhlynn.com
-
+  tls:
+    - secretName: gateway-tls
+      hosts:
+        - calmhlynn.com
 resources: {}
-  
 livenessProbe:
   httpGet:
     path: /
@@ -74,19 +63,13 @@ readinessProbe:
   httpGet:
     path: /
     port: http
-
 autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
-
 volumes: []
-
 volumeMounts: []
-
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}

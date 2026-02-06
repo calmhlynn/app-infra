@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   repository: barca105/gateway-rs
   pullPolicy: IfNotPresent
-  tag: v0.2.1-main-296180bc464f7c7545606e3ecd2bacf15dd6e560
+  tag: v0.2.1-main-22b1650ec90b6f35f21dce751fe40de20dfcd280
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
